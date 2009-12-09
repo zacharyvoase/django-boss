@@ -1,0 +1,8 @@
+wiki-name: django-boss Documentation
+
+markdown:
+  extensions:
+    - codehilite
+    - def_list
+    - headerid
+
