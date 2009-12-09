@@ -7,4 +7,5 @@ syntax: glob
 MANIFEST
 build
 dist
-
+doc/.html
+doc/.tmp
