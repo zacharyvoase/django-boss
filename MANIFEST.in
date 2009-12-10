@@ -1,1 +1,2 @@
 include REQUIREMENTS
+include ez_setup.py
