@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import os
 import sys
 import textwrap
@@ -66,6 +67,7 @@ def main():
     from djboss.parser import PARSER
     
     args = PARSER.parse_args()
+    logging.root.setLevel(getattr(logging, args.log_level))
     commands[args.command](args)
 
 
