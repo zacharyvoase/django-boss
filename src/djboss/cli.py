@@ -15,6 +15,7 @@ class SettingsImportError(ImportError):
 
 def get_settings():
     if 'DJANGO_SETTINGS_MODULE' in os.environ:
+        sys.path.append(os.getcwd())
         try:
             return import_module(os.environ['DJANGO_SETTINGS_MODULE'])
         except ImportError, exc:
