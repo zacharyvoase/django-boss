@@ -36,5 +36,6 @@ setup(
     description      = "Django management commands, revisited.",
     packages         = find_packages(where='src'),
     package_dir      = {'': 'src'},
+    entry_points     = {'console_scripts': ['djboss = djboss.cli:main']},
     install_requires = get_requirements(),
 )
