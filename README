@@ -8,6 +8,18 @@ individual apps and then run them using the `djboss` command-line interface.
 
   [0]: http://blog.zacharyvoase.com/post/275566873
 
+## News
+
+The latest version of `django-boss` (v0.2) comes with a `manage` command that
+lets you run *native* Django management commands under `djboss`. For example:
+
+    $ djboss manage --help
+    $ djboss manage syncdb
+    $ djboss manage runserver --help
+
+So you can (if you want) delete the `./manage.py` file in your project and use
+`djboss` exclusively!
+
 ## Installing `django-boss`
 
 At the moment, installation is done via `easy_install django-boss` or
