@@ -3,6 +3,9 @@
 from djboss.parser import SUBPARSERS
 
 
+__all__ = ['Command', 'command', 'argument']
+
+
 class Command(object):
     
     """Wrapper to manage creation and population of sub-parsers on functions."""
@@ -83,3 +86,22 @@ def argument(*args, **kwargs):
         
         return function
     return decorator
+
+
+@command(add_help=False, prefix_chars='')
+@argument('args', nargs='*')
+def manage(args):
+    """Run native Django management commands under djboss."""
+    
+    from django.core import management as mgmt
+    
+    OldOptionParser = mgmt.LaxOptionParser
+    class LaxOptionParser(mgmt.LaxOptionParser):
+        def __init__(self, *args, **kwargs):
+            kwargs['prog'] = 'djboss manage'
+            OldOptionParser.__init__(self, *args, **kwargs)
+    mgmt.LaxOptionParser = LaxOptionParser
+    
+    utility = mgmt.ManagementUtility(['djboss manage'] + args.args)
+    utility.prog_name = 'djboss manage'
+    utility.execute()
