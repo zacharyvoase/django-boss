@@ -15,8 +15,8 @@ class SettingsImportError(ImportError):
 
 
 def get_settings():
+    sys.path.append(os.getcwd())
     if 'DJANGO_SETTINGS_MODULE' in os.environ:
-        sys.path.append(os.getcwd())
         try:
             return import_module(os.environ['DJANGO_SETTINGS_MODULE'])
         except ImportError, exc:
@@ -36,19 +36,29 @@ def get_settings():
     return settings
 
 
-def find_commands(apps):
+def find_commands(app):
+    """Return a dict of `command_name: command_obj` for the given app."""
+    
+    commands = {}
+    app_module = import_module(app) # Fail loudly if an app doesn't exist.
+    try:
+        commands_module = import_module(app + '.commands')
+    except ImportError:
+        pass
+    else:
+        for command in vars(commands_module).itervalues():
+            if isinstance(command, Command):
+                commands[command.name] = command
+    return commands
+
+
+def find_all_commands(apps):
     """Return a dict of `command_name: command_obj` for all the given apps."""
     
     commands = {}
+    commands.update(find_commands('djboss'))
     for app in apps:
-        try:
-            commands_module = import_module(app + '.commands')
-        except ImportError:
-            pass
-        else:
-            for command in vars(commands_module).itervalues():
-                if isinstance(command, Command):
-                    commands[command.name] = command
+        commands.update(find_commands(app))
     return commands
 
 
@@ -62,12 +72,15 @@ def main():
         print >> sys.stderr, '\t' + str(exc.args[1])
         sys.exit(1)
     
-    commands = find_commands(settings.INSTALLED_APPS)
+    commands = find_all_commands(settings.INSTALLED_APPS)
     
     from djboss.parser import PARSER
     
+    PARSER.set_defaults(settings=settings)
     args = PARSER.parse_args()
     logging.root.setLevel(getattr(logging, args.log_level))
+    
+    # Call the command.
     commands[args.command](args)
 
 
