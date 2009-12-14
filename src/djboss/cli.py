@@ -72,6 +72,9 @@ def main():
         print >> sys.stderr, '\t' + str(exc.args[1])
         sys.exit(1)
     
+    from django.core import management as mgmt
+    mgmt.setup_environ(settings)
+    
     commands = find_all_commands(settings.INSTALLED_APPS)
     
     from djboss.parser import PARSER
