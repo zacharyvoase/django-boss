@@ -88,8 +88,6 @@ def argument(*args, **kwargs):
     return decorator
 
 
-@command(add_help=False, prefix_chars='')
-@argument('args', nargs='*')
 def manage(args):
     """Run native Django management commands under djboss."""
     
@@ -105,3 +103,8 @@ def manage(args):
     utility = mgmt.ManagementUtility(['djboss manage'] + args.args)
     utility.prog_name = 'djboss manage'
     utility.execute()
+
+# `prefix_chars=''` will stop argparse from interpreting the management
+# sub-command options as options on this command.
+manage = Command(manage, add_help=False, prefix_chars='')
+manage.add_argument('args', nargs='*')
