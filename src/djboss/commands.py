@@ -35,7 +35,7 @@ class Command(object):
     def help(self):
         if hasattr(self.function, 'djboss_help'):
             return self.function.djboss_help
-        elif hasattr(self.function, '__doc__'):
+        elif getattr(self.function, '__doc__', None):
             # Just the first line of the docstring.
             return self.function.__doc__.splitlines()[0]
     help = property(help)
@@ -43,7 +43,7 @@ class Command(object):
     def description(self):
         if hasattr(self.function, 'djboss_description'):
             return self.function.djboss_description
-        elif hasattr(self.function, '__doc__'):
+        elif getattr(self.function, '__doc__', None):
             return self.function.__doc__
     description = property(description)
     
