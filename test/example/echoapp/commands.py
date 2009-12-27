@@ -40,3 +40,19 @@ def app_path(args):
             print args.app.__file__[:-1]
         else:
             print args.app.__file__
+
+
+@command
+@argument('model', type=MODEL_LABEL)
+def model_fields(args):
+    """Print all the fields on a specified model."""
+    
+    justify = 1
+    table = []
+    for field in args.model._meta.fields:
+        justify = max(justify, len(field.name))
+        table.append((field.name, field.db_type()))
+    
+    for name, db_type in table:
+        print (name + ':').ljust(justify + 1) + '\t' + db_type
+
