@@ -71,9 +71,9 @@ def APP_LABEL(label=None, **kwargs):
     
     Example Usage:
     
-        *   `@argument('app', type=APP_LABEL)`
-        *   `@argument('app', type=APP_LABEL(empty=False))`
-        *   `APP_LABEL('auth')` => `<module 'django.contrib.auth' ...>`
+    *   `@argument('app', type=APP_LABEL)`
+    *   `@argument('app', type=APP_LABEL(empty=False))`
+    *   `APP_LABEL('auth')` => `<module 'django.contrib.auth' ...>`
     """
     
     from django.db import models
@@ -102,8 +102,8 @@ def MODEL_LABEL(label):
     
     Example Usage:
     
-        *   `@argument('app.model', type=MODEL_LABEL)
-        *   `MODEL_LABEL('auth.user')` => `<class 'django.contrib.auth.models.User'>`
+    *   `@argument('app.model', type=MODEL_LABEL)
+    *   `MODEL_LABEL('auth.user')` => `<class 'django.contrib.auth.models.User'>`
     """
     
     from django.db import models
