@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import functools
+import re
 import sys
 
 from djboss.parser import SUBPARSERS
 
 
-__all__ = ['Command', 'command', 'argument', 'APP_LABEL']
+__all__ = ['Command', 'command', 'argument', 'APP_LABEL', 'MODEL_LABEL']
 
 
 class Command(object):
@@ -92,6 +93,29 @@ def APP_LABEL(label=None, **kwargs):
     else:
         # 'path.to.app.models' => 'path.to.app'
         return import_module(models_module.__name__.rsplit('.', 1)[0])
+
+
+def MODEL_LABEL(label):
+    
+    """
+    argparse type to resolve arguments to Django models.
+    
+    Example Usage:
+    
+        *   `@argument('app.model', type=MODEL_LABEL)
+        *   `MODEL_LABEL('auth.user')` => `<class 'django.contrib.auth.models.User'>`
+    """
+    
+    from django.db import models
+    
+    match = re.match(r'^([\w_]+)\.([\w_]+)$', label)
+    if not match:
+        raise TypeError
+    
+    model = models.get_model(*match.groups())
+    if not model:
+        raise ValueError
+    return model
 
 
 def command(*args, **kwargs):
