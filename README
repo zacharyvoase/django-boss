@@ -10,8 +10,29 @@ individual apps and then run them using the `djboss` command-line interface.
 
 ## News
 
-The latest version of `django-boss` (v0.2) comes with a `manage` command that
-lets you run *native* Django management commands under `djboss`. For example:
+### 0.4
+
+You can now use the `APP_LABEL` argparse type to define an argument which takes
+the name of an installed Django app; the attribute on the arguments object will
+hold the appropriate module object. For example, this:
+
+    from djboss.commands import *
+    
+    @command
+    @argument('app', type=APP_LABEL)
+    def print_app(args):
+        """Print the module object for a specified app."""
+        print args.app
+
+Would run like this:
+
+    $ djboss print-app auth
+    <module 'django.contrib.auth' from '/.../auth/__init__.pyc'>
+
+### 0.2
+
+`django-boss` now comes with a `manage` command that lets you run *native*
+Django management commands under `djboss`. For example:
 
     $ djboss manage --help
     $ djboss manage syncdb
