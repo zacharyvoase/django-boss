@@ -23,3 +23,20 @@ def hello(args):
     """Print a cliche to the console."""
     
     print "Hello, World!"
+
+
+@command
+@argument('app', type=APP_LABEL)
+def app_path(args):
+    """Print a path to the specified app."""
+    
+    import os.path as p
+    
+    path, base = p.split(p.splitext(args.app.__file__)[0])
+    if base == '__init__':
+        print p.join(path, '')
+    else:
+        if p.splitext(args.app.__file__[-4:])[1] in ('.pyc', '.pyo'):
+            print args.app.__file__[:-1]
+        else:
+            print args.app.__file__
