@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import functools
+import sys
+
 from djboss.parser import SUBPARSERS
 
 
-__all__ = ['Command', 'command', 'argument']
+__all__ = ['Command', 'command', 'argument', 'APP_LABEL']
 
 
 class Command(object):
@@ -58,6 +61,37 @@ class Command(object):
             while self.function.djboss_arguments:
                 args, kwargs = self.function.djboss_arguments.pop()
                 self.add_argument(*args, **kwargs)
+
+
+def APP_LABEL(label=None, **kwargs):
+    
+    """
+    argparse type to resolve arguments to Django apps.
+    
+    Example Usage:
+    
+        *   `@argument('app', type=APP_LABEL)`
+        *   `@argument('app', type=APP_LABEL(empty=False))`
+        *   `APP_LABEL('auth')` => `<module 'django.contrib.auth' ...>`
+    """
+    
+    from django.db import models
+    from django.conf import settings
+    from django.utils.importlib import import_module
+    
+    if label is None:
+        return functools.partial(APP_LABEL, **kwargs)
+    
+    # `get_app('auth')` will return the `django.contrib.auth.models` module.
+    models_module = models.get_app(label, emptyOK=kwargs.get('empty', True))
+    if models_module is None:
+        for installed_app in settings.INSTALLED_APPS:
+            # 'app' should resolve to 'path.to.app'.
+            if installed_app.split('.')[-1] == label:
+                return import_module(installed_app)
+    else:
+        # 'path.to.app.models' => 'path.to.app'
+        return import_module(models_module.__name__.rsplit('.', 1)[0])
 
 
 def command(*args, **kwargs):
