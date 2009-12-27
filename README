@@ -10,6 +10,28 @@ individual apps and then run them using the `djboss` command-line interface.
 
 ## News
 
+### 0.5
+
+You can now use the `MODEL_LABEL` argparse type to define arguments which take
+model specifiers. The arguments object will contain the model class. For
+example:
+
+    from djboss.commands import *
+    
+    @command
+    @argument('model', type=MODEL_LABEL)
+    def print_model(args):
+        """Print the class object for a specified model."""
+        print args.model
+
+Could be run like this:
+
+    $ djboss print-model auth.user
+    <class 'django.contrib.auth.User'>
+
+Model specifiers take the form `app_label.model_name`, where `model_name` is
+case-insensitive.
+
 ### 0.4
 
 You can now use the `APP_LABEL` argparse type to define an argument which takes
