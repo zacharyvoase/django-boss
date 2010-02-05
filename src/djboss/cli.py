@@ -80,6 +80,11 @@ def main():
     from djboss.parser import PARSER
     
     PARSER.set_defaults(settings=settings)
+    if settings.DEBUG:
+        PARSER.set_defaults(log_level='DEBUG')
+    else:
+        PARSER.set_defaults(log_level='WARN')
+    
     args = PARSER.parse_args()
     logging.root.setLevel(getattr(logging, args.log_level))
     

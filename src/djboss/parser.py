@@ -22,6 +22,7 @@ PARSER = argparse.ArgumentParser(
 
 PARSER.add_argument('-l', '--log-level', metavar='LEVEL',
     default='WARN', choices='DEBUG INFO WARN ERROR'.split(),
-    help="Choose a log level from DEBUG, INFO, WARN (default) or ERROR.")
+    help="Choose a log level from DEBUG, INFO, WARN or ERROR "
+         "(default: %(default)s)")
 
 SUBPARSERS = PARSER.add_subparsers(dest='command', title='commands', metavar='COMMAND')
