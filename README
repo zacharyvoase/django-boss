@@ -10,6 +10,11 @@ individual apps and then run them using the `djboss` command-line interface.
 
 ## News
 
+#### 0.6.1
+
+If `settings.DEBUG` is `True`, the default logging level will be set to `DEBUG`.
+Otherwise it will be `WARN`.
+
 ### 0.6
 
 `django-boss` is now free and unencumbered software released into the public
