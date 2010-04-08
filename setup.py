@@ -32,7 +32,7 @@ setup(
     version          = get_version(),
     author           = "Zachary Voase",
     author_email     = "zacharyvoase@me.com",
-    url              = 'http://bitbucket.org/zacharyvoase/django-boss',
+    url              = 'http://github.com/zacharyvoase/django-boss',
     description      = "Django management commands, revisited.",
     packages         = find_packages(where='src'),
     package_dir      = {'': 'src'},
