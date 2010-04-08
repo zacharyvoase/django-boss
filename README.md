@@ -1,5 +1,3 @@
-<!--*- markdown -*-->
-
 # `django-boss`
 
 `django-boss` is an implementation of the ideas outlined in [my blog post][0] on
