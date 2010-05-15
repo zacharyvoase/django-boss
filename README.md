@@ -4,7 +4,7 @@
 Django management commands. With `django-boss`, you can specify commands in
 individual apps and then run them using the `djboss` command-line interface.
 
-  [0]: http://blog.zacharyvoase.com/post/275566873
+  [0]: http://blog.zacharyvoase.com/2009/12/09/django-boss/
 
 ## News
 
