@@ -24,7 +24,7 @@ def get_settings():
                 There was an error importing the module specified by the
                 DJANGO_SETTINGS_MODULE environment variable. Make sure that it
                 refers to a valid and importable Python module."""), exc)
-    
+
     try:
         import settings
     except ImportError, exc:
@@ -38,7 +38,7 @@ def get_settings():
 
 def find_commands(app):
     """Return a dict of `command_name: command_obj` for the given app."""
-    
+
     commands = {}
     app_module = import_module(app) # Fail loudly if an app doesn't exist.
     try:
@@ -54,7 +54,7 @@ def find_commands(app):
 
 def find_all_commands(apps):
     """Return a dict of `command_name: command_obj` for all the given apps."""
-    
+
     commands = {}
     commands.update(find_commands('djboss'))
     for app in apps:
@@ -71,23 +71,23 @@ def main():
         print >> sys.stderr, "The original exception was:"
         print >> sys.stderr, '\t' + str(exc.args[1])
         sys.exit(1)
-    
+
     from django.core import management as mgmt
     mgmt.setup_environ(settings)
-    
+
     commands = find_all_commands(settings.INSTALLED_APPS)
-    
+
     from djboss.parser import PARSER
-    
+
     PARSER.set_defaults(settings=settings)
     if settings.DEBUG:
         PARSER.set_defaults(log_level='DEBUG')
     else:
         PARSER.set_defaults(log_level='WARN')
-    
+
     args = PARSER.parse_args()
     logging.root.setLevel(getattr(logging, args.log_level))
-    
+
     # Call the command.
     commands[args.command](args)
 
